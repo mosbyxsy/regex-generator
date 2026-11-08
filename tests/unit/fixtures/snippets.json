@@ -1,0 +1,86 @@
+[
+  {
+    "name": "Java",
+    "flags": "i",
+    "input": "abc.\\$hier \"und\" / 'da'([).",
+    "expected": "import java.util.regex.Pattern;\nimport java.util.regex.Matcher;\n\npublic class Sample {\n    public static boolean useRegex(final String input) {\n        // Compile regular expression\n        final Pattern pattern = Pattern.compile(\"abc\\\\.\\\\\\\\\\\\$hier \\\"und\\\" / 'da'\\\\(\\\\[\\\\)\\\\.\", Pattern.CASE_INSENSITIVE);\n        // Match regex against input\n        final Matcher matcher = pattern.matcher(input);\n        // Use results...\n        return matcher.matches();\n    }\n}"
+  },
+  {
+    "name": "Kotlin",
+    "flags": "i",
+    "input": "abc.\\$hier \"und\" / 'da'([).",
+    "expected": "fun useRegex(input: String): Boolean {\n    val regex = Regex(pattern = \"abc\\\\.\\\\\\\\\\\\$hier \\\"und\\\" / 'da'\\\\(\\\\[\\\\)\\\\.\", options = setOf(RegexOption.IGNORE_CASE))\n    return regex.matches(input)\n}"
+  },
+  {
+    "name": "C (regex.h)",
+    "flags": "i",
+    "input": "abc.\\$hier \"und\" / 'da'([).",
+    "expected": "#include <regex.h>\n\nint useRegex(char* textToCheck) {\n    regex_t compiledRegex;\n    int reti;\n    int actualReturnValue = -1;\n    char messageBuffer[100];\n\n    /* Compile regular expression */\n    reti = regcomp(&compiledRegex, \"abc\\\\.\\\\\\\\\\\\$hier \\\"und\\\" / 'da'\\\\(\\\\[\\\\)\\\\.\", REG_EXTENDED | REG_ICASE);\n    if (reti) {\n        fprintf(stderr, \"Could not compile regex\\n\");\n        return -2;\n    }\n\n    /* Execute compiled regular expression */\n    reti = regexec(&compiledRegex, textToCheck, 0, NULL, 0);\n    if (!reti) {\n        puts(\"Match\");\n        actualReturnValue = 0;\n    } else if (reti == REG_NOMATCH) {\n        puts(\"No match\");\n        actualReturnValue = 1;\n    } else {\n        regerror(reti, &compiledRegex, messageBuffer, sizeof(messageBuffer));\n        fprintf(stderr, \"Regex match failed: %s\\n\", messageBuffer);\n        actualReturnValue = -3;\n    }\n\n    /* Free memory allocated to the pattern buffer by regcomp() */\n    regfree(&compiledRegex);\n    return actualReturnValue;\n}"
+  },
+  {
+    "name": "C#",
+    "flags": "i",
+    "input": "abc.\\$hier \"und\" / 'da'([).",
+    "expected": "using System;\nusing System.Text.RegularExpressions;\n\npublic class Sample\n{\n    public static bool useRegex(String input)\n    {\n        const Regex regex = new Regex(\"abc\\\\.\\\\\\\\\\\\$hier \\\"und\\\" / 'da'\\\\(\\\\[\\\\)\\\\.\", RegexOptions.IgnoreCase);\n        return regex.IsMatch(input);\n    }\n}"
+  },
+  {
+    "name": "grep",
+    "flags": "i",
+    "input": "abc.\\$hier \"und\" / 'da'([).",
+    "expected": "grep -P -i 'abc\\.\\\\\\$hier \"und\" / '\"'\"'da'\"'\"'\\(\\[\\)\\.' [FILE...]"
+  },
+  {
+    "name": "grep",
+    "flags": "i",
+    "input": "-abc",
+    "expected": "grep -P -i '\\-abc' [FILE...]"
+  },
+  {
+    "name": "JavaScript",
+    "flags": "i",
+    "input": "abc.\\$hier \"und\" / 'da'([).",
+    "expected": "function useRegex(input) {\n    let regex = /abc\\.\\\\\\$hier \"und\" \\/ 'da'\\(\\[\\)\\./i;\n    return regex.test(input);\n}"
+  },
+  {
+    "name": "PHP",
+    "flags": "i",
+    "input": "abc.\\$hier \"und\" / 'da'([).",
+    "expected": "<?php\nfunction useRegex($input) {\n    $regex = '/abc\\\\.\\\\\\\\\\\\$hier \"und\" / \\'da\\'\\\\(\\\\[\\\\)\\\\./i';\n    return preg_match($regex, $input);\n}\n?>"
+  },
+  {
+    "name": "Ruby",
+    "flags": "i",
+    "input": "abc.\\$hier \"und\" / 'da'([).",
+    "expected": "def use_regex(input)\n    regex = Regexp.new('abc\\\\.\\\\\\\\\\\\$hier \"und\" / \\'da\\'\\\\(\\\\[\\\\)\\\\.', Regexp::IGNORECASE)\n    regex.match input\nend"
+  },
+  {
+    "name": "Python",
+    "flags": "i",
+    "input": "abc.\\$hier \"und\" / 'da'([).",
+    "expected": "import re\n\ndef use_regex(input_text):\n    pattern = re.compile(r\"abc\\.\\\\\\$hier \"'\"'r\"und\"'\"'r\" / 'da'\\(\\[\\)\\.\", re.IGNORECASE)\n    return pattern.match(input_text)"
+  },
+  {
+    "name": "Swift",
+    "flags": "i",
+    "input": "abc.\\$hier \"und\" / 'da'([).",
+    "expected": "func useRegex(for text: String) -> Bool {\n    let regex = try! NSRegularExpression(pattern: \"abc\\\\.\\\\\\\\\\\\$hier \\\"und\\\" / 'da'\\\\(\\\\[\\\\)\\\\.\", options: [.caseInsensitive])\n    let range = NSRange(location: 0, length: text.count)\n    let matches = regex.matches(in: text, options: [], range: range)\n    return matches.first != nil\n}"
+  },
+  {
+    "name": "Swift",
+    "flags": "",
+    "input": "abc.\\$hier \"und\" / 'da'([).",
+    "expected": "func useRegex(for text: String) -> Bool {\n    let regex = try! NSRegularExpression(pattern: \"abc\\\\.\\\\\\\\\\\\$hier \\\"und\\\" / 'da'\\\\(\\\\[\\\\)\\\\.\")\n    let range = NSRange(location: 0, length: text.count)\n    let matches = regex.matches(in: text, options: [], range: range)\n    return matches.first != nil\n}"
+  },
+  {
+    "name": "Swift",
+    "flags": "ism",
+    "input": "abc.\\$hier \"und\" / 'da'([).",
+    "expected": "func useRegex(for text: String) -> Bool {\n    let regex = try! NSRegularExpression(pattern: \"abc\\\\.\\\\\\\\\\\\$hier \\\"und\\\" / 'da'\\\\(\\\\[\\\\)\\\\.\", options: [.caseInsensitive, .dotMatchesLineSeparators, .anchorsMatchLines])\n    let range = NSRange(location: 0, length: text.count)\n    let matches = regex.matches(in: text, options: [], range: range)\n    return matches.first != nil\n}"
+  },
+  {
+    "name": "Visual Basic .NET",
+    "flags": "i",
+    "input": "abc.\\$hier \"und\" / 'da'([).",
+    "expected": "Imports System.Text.RegularExpressions\n\nPublic Module Sample\n    Public Function useRegex(ByVal input As String) As Boolean\n        Dim regex = New Regex(\"abc\\.\\\\\\$hier \"\"und\"\" / 'da'\\(\\[\\)\\.\", RegexOptions.IgnoreCase)\n        Return regex.IsMatch(input)\n    End Function\nEnd Module"
+  }
+]
